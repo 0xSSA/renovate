@@ -798,6 +798,10 @@ export async function getBranchPr(branchName: string): Promise<GhPr | null> {
         'Successfully reopened autoclosed PR'
       );
       const result = coerceRestPr(ghPr);
+      const { node_id } = result;
+
+      await tryPrAutomerge(number, node_id, { usePlatformAutomerge: true });
+
       cachePr(result);
       return result;
     } catch (err) {
